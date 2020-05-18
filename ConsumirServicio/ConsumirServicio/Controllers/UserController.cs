@@ -13,7 +13,7 @@ namespace ConsumirServicio.Controllers
 {
     public class UserController : Controller
     {
-        string baseUrl = "http://localhost:52664/";
+        string baseUrl = "http://localhost:63376/";
         public ActionResult Index(string error)
         {
             if (error != null)
@@ -93,7 +93,7 @@ namespace ConsumirServicio.Controllers
                     cliente.BaseAddress = new Uri(baseUrl);
                     cliente.DefaultRequestHeaders.Clear();
                     cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = await cliente.GetAsync(String.Format("/api/Jugador/login/?username={0}&password={1}", username, password));
+                    HttpResponseMessage response = await cliente.GetAsync(String.Format("/api/Jugador/?login={0}&pass={1}", username, password));
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -108,7 +108,7 @@ namespace ConsumirServicio.Controllers
                             System.Web.HttpContext.Current.Session["username"] = jugador.nombre;
                             System.Web.HttpContext.Current.Session["balance"] = monedero.saldo;
                             System.Web.HttpContext.Current.Session["idMonedero"] = monedero.idMonedero;
-                            return RedirectToAction("Listado", "Evento");
+                            return RedirectToAction("Registro", "Index");
                         }
                         else
                         {
