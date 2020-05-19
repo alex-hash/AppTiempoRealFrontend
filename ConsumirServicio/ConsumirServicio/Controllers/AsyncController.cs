@@ -18,7 +18,6 @@ namespace ConsumirServicio.Controllers
         private string baseUrl = "http://localhost:63376/"; 
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("Eventos")]
         public ActionResult Get()
         {
 
