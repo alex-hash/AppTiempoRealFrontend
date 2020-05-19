@@ -1,19 +1,47 @@
-﻿function BorrarTabla() {
-    console.log("Borrando tabla");
-    $("#tablaEventos>tbody>tr.fila-evento").remove();
-}
-
-function CargarPagina() {
-    console.log("sadf");
-}
+﻿eventos = [{ id: 1, nombre: "nombre1", fecha: new Date(), cuota: 3.3, resultado: '1-1' }, { id: 2, nombre: "nombre2", fecha: new Date(), cuota: 2.3, resultado: '2-1'  },];
 
 window.onload = OnLoad();
 
 function OnLoad() {
-    var eventos = [{ id: 1, nombre: "nombre1", fecha: new Date(), cuota: "cuota1" }, { id: 2, nombre: "nombre2", fecha: new Date(), cuota: "cuota2" },];
-    var intervalID = window.setInterval(BorrarTabla(), 500);
+    setInterval(function () { CargarEventos(eventos); }, 500);
 }
 
+function CargarEventos(eventos) {
+    BorrarTabla();
+
+    var cuerpoTabla = $("#tablaEventos>tbody");
+
+    for (var i = 0; i < eventos.length; i++) {
+
+        var fila = document.createElement("tr");
+
+        var casillaNombre = document.createElement("td");
+        casillaNombre.textContent = eventos[i].nombre;
+
+        var casillaFecha = document.createElement("td");
+        casillaFecha.textContent = eventos[i].fecha;
+
+        var casillaCuota = document.createElement("td");
+        casillaCuota.textContent = eventos[i].cuota;
+
+        var casillaResultado = document.createElement("td");
+        casillaResultado.textContent = eventos[i].resultado;
+
+        fila.appendChild(casillaNombre);
+        fila.appendChild(casillaFecha);
+        fila.appendChild(casillaCuota);
+        fila.appendChild(casillaResultado);
+
+        fila.classList.add('fila-evento');
+
+        cuerpoTabla.append(fila);
+    }
+}
+
+function BorrarTabla() {
+    console.log("Borrando tabla");
+    $("#tablaEventos>tbody>tr.fila-evento").remove();
+}
 
 function CargarEventosDeApi(idEvento) {
     $.ajax({
@@ -35,30 +63,4 @@ function CargarEventosDeApi(idEvento) {
     });
 }
 
-function CargarEventos(eventos) {
-    var cuerpoTabla = $("#tablaEventos>tbody");
 
-    for (var i = 0; i < eventos.length; i++) {
-        var fila = document.createElement("tr");
-
-        var casillaNombre = document.createElement("th");
-        casillaNombre.textContent = eventos[i].nombre;
-
-        var casillaFecha = document.createElement("th");
-        casillaFecha.textContent = eventos[i].fecha;
-
-        var casillaCuota = document.createElement("th");
-        casillaCuota.textContent = eventos[i].cuota;
-
-        var casillaResultado = document.createElement("th");
-        casillaResultado.textContent = eventos[i].resultado;
-
-        fila.add(casillaNombre);
-        fila.add(casillaFecha);
-        fila.add(casillaCuota);
-        fila.add(casillaResultado);
-
-        cuerpoTabla.add(fila)
-    }
-
-}

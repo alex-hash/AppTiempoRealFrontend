@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace ConsumirServicio.Controllers
 {
     public class UserController : Controller
-    {
+    {/*
         string baseUrl = "http://localhost:52664/";
         public ActionResult Index(string error)
         {
@@ -29,6 +29,7 @@ namespace ConsumirServicio.Controllers
 
         public ActionResult EnvioRegistro(string username, string password, string balance)
         {
+            
             Monedero monedero = new Monedero();
             monedero.balance = Decimal.Parse(balance);
             monedero.IdMonedero = Guid.NewGuid().ToString();
@@ -40,7 +41,7 @@ namespace ConsumirServicio.Controllers
             jug.IdJugador = Guid.NewGuid().ToString();
             jug.IdMonedero = monedero.IdMonedero;
             CrearJugadorDB(jug);
-
+            
 
             return RedirectToAction("Index");
         }
@@ -127,6 +128,6 @@ namespace ConsumirServicio.Controllers
             {
                 throw e;
             }
-        }
+        }*/
     }
 }
