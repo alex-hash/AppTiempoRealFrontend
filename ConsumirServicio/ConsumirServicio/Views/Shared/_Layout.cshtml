@@ -17,13 +17,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nombre de la aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @{
+                    if (Session["username"] == null)
+                    {
+                        @Html.ActionLink("Apuestas Luckia", "Index", "User", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Apuestas Luckia", "Index", "Evento", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    @{
+                        if (Session["username"] == null)
+                        {
+                            <li>@Html.ActionLink("Inicio", "Index", "User")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Listado de Eventos", "Index", "Evento")</li>
+                        }
+                    }
+                    @{
+                        if (Session["username"] != null)
+                        {
+                            <li style="margin-left:300px"><a>Bienvenido @Html.Raw(Session["username"]), Balance: @Html.Raw(Session["balance"])</a></li>
+                        }
+                    }
                 </ul>
             </div>
         </div>

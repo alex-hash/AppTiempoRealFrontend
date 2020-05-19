@@ -40,7 +40,7 @@ namespace ConsumirServicio.Controllers
             
             Monedero monedero = new Monedero();
             monedero.saldo = Decimal.Parse(balance);
-            monedero.idJugador = jug.idJugador; 
+            monedero.idJugador = jug.id; 
             CrearMonederoDB(monedero);
             
             return RedirectToAction("Index");
@@ -65,14 +65,14 @@ namespace ConsumirServicio.Controllers
             }
         }
 
-        public HttpResponseMessage CrearJugadorDB(Jugador jug)
+        public HttpResponseMessage CrearJugadorDB(Jugador jugador)
         {
             try
             {
                 using (var cliente = new HttpClient())
                 {
                     cliente.BaseAddress = new Uri(baseUrl + "api/Jugador");
-                    var postTask = cliente.PostAsJsonAsync<Jugador>("Jugador", jug);
+                    var postTask = cliente.PostAsJsonAsync<Jugador>("Jugador", jugador);
                     postTask.Wait();
                     return postTask.Result;
                 }
@@ -101,16 +101,16 @@ namespace ConsumirServicio.Controllers
                     {
                         var jugadorResponse = response.Content.ReadAsStringAsync().Result;
                         jugador = JsonConvert.DeserializeObject<Jugador>(jugadorResponse);
-                        HttpResponseMessage responseM = await cliente.GetAsync(String.Format("/api/Monedero/?id={0}", jugador.idJugador));
+                        HttpResponseMessage responseM = await cliente.GetAsync(String.Format("/api/Monedero/?id={0}", jugador.id));
                         if (responseM.IsSuccessStatusCode)
                         {
                             var responseMonedero = responseM.Content.ReadAsStringAsync().Result;
                             monedero = JsonConvert.DeserializeObject<Monedero>(responseMonedero);
-                            System.Web.HttpContext.Current.Session["idJugador"] = jugador.idJugador;
+                            System.Web.HttpContext.Current.Session["idJugador"] = jugador.id;
                             System.Web.HttpContext.Current.Session["username"] = jugador.nombre;
                             System.Web.HttpContext.Current.Session["balance"] = monedero.saldo;
                             System.Web.HttpContext.Current.Session["idMonedero"] = monedero.idMonedero;
-                            return RedirectToAction("Registro", "Index");
+                            return RedirectToAction("Index", "Evento");
                         }
                         else
                         {
@@ -128,6 +128,6 @@ namespace ConsumirServicio.Controllers
             {
                 throw e;
             }
-        }*/
+        }
     }
 }
