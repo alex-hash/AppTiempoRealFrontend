@@ -23,7 +23,7 @@ namespace ConsumirServicio.Controllers
 
             using (var cliente = new HttpClient())
             {
-                cliente.BaseAddress = new Uri(baseUrl + "api/Evento");
+                cliente.BaseAddress = new Uri(baseUrl);
                 cliente.DefaultRequestHeaders.Clear();
                 cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
