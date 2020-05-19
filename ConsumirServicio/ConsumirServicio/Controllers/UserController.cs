@@ -30,17 +30,19 @@ namespace ConsumirServicio.Controllers
 
         public ActionResult EnvioRegistro(string username, string password, string balance, string nombre, string apellido)
         {
+
             Jugador jug = new Jugador();
             jug.login = username;
             jug.password = password;
             jug.nombre = nombre;
             jug.apellido = apellido;
             CrearJugadorDB(jug);
-
+            
             Monedero monedero = new Monedero();
             monedero.saldo = Decimal.Parse(balance);
             monedero.idJugador = jug.idJugador; 
             CrearMonederoDB(monedero);
+            
             return RedirectToAction("Index");
         }
 
@@ -126,6 +128,6 @@ namespace ConsumirServicio.Controllers
             {
                 throw e;
             }
-        }
+        }*/
     }
 }
