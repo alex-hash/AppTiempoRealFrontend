@@ -16,6 +16,10 @@ namespace ConsumirServicio.Controllers
         private string baseUrl = "http://localhost:63376/";
         public ActionResult Index()
         {
+            if(Session["username"] == null)
+            {
+                return RedirectToAction("Index", "User", new { error = "Debes loguearte para acceder a los eventos" });
+            }
             return View();
         }
     }

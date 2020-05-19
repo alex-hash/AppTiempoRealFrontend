@@ -26,22 +26,28 @@ namespace ConsumirServicio.Controllers
                 cliente.BaseAddress = new Uri(baseUrl);
                 cliente.DefaultRequestHeaders.Clear();
                 cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                Task<HttpResponseMessage> tarea = cliente.GetAsync("api/Evento");
-                tarea.Wait();
-                var response = tarea.Result;
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var jugadoresResponse = response.Content.ReadAsStringAsync().Result;
-                    var listaEventos = JsonConvert.DeserializeObject<List<Evento>>(jugadoresResponse);
+                    Task<HttpResponseMessage> tarea = cliente.GetAsync("api/Evento");
+                    tarea.Wait();
+                    var response = tarea.Result;
 
-                    return JsonSuccess(listaEventos);
-                }
-                else
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jugadoresResponse = response.Content.ReadAsStringAsync().Result;
+                        var listaEventos = JsonConvert.DeserializeObject<List<Evento>>(jugadoresResponse);
+
+                        return JsonSuccess(listaEventos);
+                    }
+                    else
+                    {
+                        return JsonError("No se ha podido recuperar");
+                    }
+                }catch(Exception ex)
                 {
-                    return JsonError("No se ha podido recuperar");
+                    return null;
                 }
+                
             }
 
         }

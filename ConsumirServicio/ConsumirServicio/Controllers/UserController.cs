@@ -23,6 +23,12 @@ namespace ConsumirServicio.Controllers
             return View();
         }
 
+        public ActionResult CerrarSesion()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index");
+        }
+
         public ActionResult Registro()
         {
             return View();
@@ -103,6 +109,10 @@ namespace ConsumirServicio.Controllers
                     {
                         var jugadorResponse = response.Content.ReadAsStringAsync().Result;
                         jugador = JsonConvert.DeserializeObject<Jugador>(jugadorResponse);
+                        if(jugador == null)
+                        {
+                            return RedirectToAction("Index", new { error = "Error en el login" });
+                        }
                         HttpResponseMessage responseM = await cliente.GetAsync(String.Format("/api/Monedero/?id={0}", jugador.id));
                         if (responseM.IsSuccessStatusCode)
                         {
