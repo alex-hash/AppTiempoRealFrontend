@@ -23,7 +23,7 @@
                     @{
                         if (ViewBag.Mensaje != null)
                         {
-                            <p style="color:red">Las credenciales son incorrectas</p>
+                            <p style="color:red">@Html.Raw(ViewBag.Mensaje)</p>
                         }
                     }
                     <button type="submit">Login</button>

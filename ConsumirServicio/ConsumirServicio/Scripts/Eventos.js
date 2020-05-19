@@ -18,7 +18,7 @@ function CargarEventosEnTabla(eventos) {
         casillaNombre.textContent = eventos[i].nombre;
 
         var casillaFecha = document.createElement("td");
-        casillaFecha.textContent = eventos[i].fecha;
+        casillaFecha.textContent = eventos[i].fecha.replace('T', ' ').substring(0, 19);
 
         var casillaCuota = document.createElement("td");
         casillaCuota.textContent = eventos[i].cuota;

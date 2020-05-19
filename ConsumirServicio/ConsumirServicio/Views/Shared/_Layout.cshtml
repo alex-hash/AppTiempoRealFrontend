@@ -33,7 +33,7 @@
                     @{
                         if (Session["username"] == null)
                         {
-                            <li>@Html.ActionLink("Inicio", "Index", "User")</li>
+                            <li>@Html.ActionLink("Listado de Eventos", "Index", "Evento")</li>
                         }
                         else
                         {
@@ -43,7 +43,8 @@
                     @{
                         if (Session["username"] != null)
                         {
-                            <li style="margin-left:300px"><a>Bienvenido @Html.Raw(Session["username"]), Balance: @Html.Raw(Session["balance"])</a></li>
+                            <li style="margin-left:400px"><a>Bienvenido @Html.Raw(Session["username"]), Balance: @Html.Raw(Session["balance"])</a></li>
+                            <li>@Html.ActionLink("Cerrar Sesión", "CerrarSesion", "User")</li>
                         }
                     }
                 </ul>
