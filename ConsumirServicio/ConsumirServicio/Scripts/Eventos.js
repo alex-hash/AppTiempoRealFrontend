@@ -1,7 +1,7 @@
 ﻿window.onload = OnLoad();
 
 function OnLoad() {
-    setInterval(function () { CargarEventosDeApi(eventos); }, 500);
+    setInterval(function () { CargarEventosDeApi(); }, 500);
 }
 
 function CargarEventosEnTabla(eventos) {
@@ -43,6 +43,7 @@ function BorrarTabla() {
 }
 
 function CargarEventosDeApi() {
+    console.log('CargarEventosDeApi');
     $.ajax({
         url: 'Async/Get',
         dataType: "json",
