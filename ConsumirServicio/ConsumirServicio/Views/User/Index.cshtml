@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="col-md-3 col-lg-3"></div>
+<div id="login" class="col-md-6 col-lg-6">
+    <div id="login-row">
+        <div id="login-column">
+            <div id="login-box">
+                <form id="login-form" class="form" action="@Url.Action("EnvioLogin", "User")" method="post">
+                    <h3 class="text-center text-info">Login</h3>
+                    <div class="form-group">
+                        <label for="username" class="text-info">Username:</label><br>
+                        <input type="text" name="username" id="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-info">Password:</label><br>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div>
+                        <p>@Html.ActionLink("Registro", "Registro", "User")</p>
+                    </div>
+                    @{
+                        if (ViewBag.Mensaje != null)
+                        {
+                            <p style="color:red">@Html.Raw(ViewBag.Mensaje)</p>
+                        }
+                    }
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-3 col-lg-3"></div>

@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Registro";
+}
+
+<div class="col-md-3 col-lg-3"></div>
+<div id="login" class="col-md-6 col-lg-6">
+    <div id="login-row">
+        <div id="login-column">
+            <div id="login-box">
+                <form id="login-form" class="form" action="@Url.Action("EnvioRegistro", "User")" method="post">
+                    <h3 class="text-center text-info">Registro</h3>
+                    <div class="form-group">
+                        <label for="username" class="text-info">Username:</label><br>
+                        <input type="text" name="username" id="username" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-info">Password:</label><br>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre" class="text-info">Nombre:</label><br>
+                        <input type="text" name="nombre" id="nombre" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido" class="text-info">Apellido:</label><br>
+                        <input type="text" name="apellido" id="apellido" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="balance" class="text-info">Balance:</label><br>
+                        <input type="text" name="balance" id="balance" class="form-control">
+                    </div>
+                    <div>
+                        <p>@Html.ActionLink("Log In", "Index", "User")</p>
+                    </div>
+                    <button type="submit">Registro</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-3 col-lg-3"></div>
