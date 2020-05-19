@@ -36,8 +36,10 @@ namespace ConsumirServicio.Controllers
             jug.password = password;
             jug.nombre = nombre;
             jug.apellido = apellido;
-            CrearJugadorDB(jug);
-            
+            HttpResponseMessage response = CrearJugadorDB(jug);
+            var responseJugador = response.Content.ReadAsStringAsync().Result;
+            jug = JsonConvert.DeserializeObject<Jugador>(responseJugador);
+
             Monedero monedero = new Monedero();
             monedero.saldo = Decimal.Parse(balance);
             monedero.idJugador = jug.id; 
