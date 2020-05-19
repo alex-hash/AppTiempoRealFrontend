@@ -7,12 +7,13 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ConsumirServicio.Models;
 
 namespace ConsumirServicio.Controllers
 {
     public class UserController : Controller
-    {/*
-        string baseUrl = "http://localhost:52664/";
+    {
+        string baseUrl = "http://localhost:63376/";
         public ActionResult Index(string error)
         {
             if (error != null)
@@ -27,22 +28,23 @@ namespace ConsumirServicio.Controllers
             return View();
         }
 
-        public ActionResult EnvioRegistro(string username, string password, string balance)
+        public ActionResult EnvioRegistro(string username, string password, string balance, string nombre, string apellido)
         {
-            
-            Monedero monedero = new Monedero();
-            monedero.balance = Decimal.Parse(balance);
-            monedero.IdMonedero = Guid.NewGuid().ToString();
-            CrearMonederoDB(monedero);
 
             Jugador jug = new Jugador();
-            jug.Nombre = username;
-            jug.Password = password;
-            jug.IdJugador = Guid.NewGuid().ToString();
-            jug.IdMonedero = monedero.IdMonedero;
-            CrearJugadorDB(jug);
-            
+            jug.login = username;
+            jug.password = password;
+            jug.nombre = nombre;
+            jug.apellido = apellido;
+            HttpResponseMessage response = CrearJugadorDB(jug);
+            var responseJugador = response.Content.ReadAsStringAsync().Result;
+            jug = JsonConvert.DeserializeObject<Jugador>(responseJugador);
 
+            Monedero monedero = new Monedero();
+            monedero.saldo = Decimal.Parse(balance);
+            monedero.idJugador = jug.id; 
+            CrearMonederoDB(monedero);
+            
             return RedirectToAction("Index");
         }
 
@@ -65,14 +67,14 @@ namespace ConsumirServicio.Controllers
             }
         }
 
-        public HttpResponseMessage CrearJugadorDB(Jugador jug)
+        public HttpResponseMessage CrearJugadorDB(Jugador jugador)
         {
             try
             {
                 using (var cliente = new HttpClient())
                 {
                     cliente.BaseAddress = new Uri(baseUrl + "api/Jugador");
-                    var postTask = cliente.PostAsJsonAsync<Jugador>("Jugador", jug);
+                    var postTask = cliente.PostAsJsonAsync<Jugador>("Jugador", jugador);
                     postTask.Wait();
                     return postTask.Result;
                 }
@@ -95,22 +97,22 @@ namespace ConsumirServicio.Controllers
                     cliente.BaseAddress = new Uri(baseUrl);
                     cliente.DefaultRequestHeaders.Clear();
                     cliente.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = await cliente.GetAsync(String.Format("/api/Jugador/login/?username={0}&password={1}", username, password));
+                    HttpResponseMessage response = await cliente.GetAsync(String.Format("/api/Jugador/?login={0}&pass={1}", username, password));
 
                     if (response.IsSuccessStatusCode)
                     {
                         var jugadorResponse = response.Content.ReadAsStringAsync().Result;
                         jugador = JsonConvert.DeserializeObject<Jugador>(jugadorResponse);
-                        HttpResponseMessage responseM = await cliente.GetAsync(String.Format("/api/Monedero/?id={0}", jugador.IdMonedero));
+                        HttpResponseMessage responseM = await cliente.GetAsync(String.Format("/api/Monedero/?id={0}", jugador.id));
                         if (responseM.IsSuccessStatusCode)
                         {
                             var responseMonedero = responseM.Content.ReadAsStringAsync().Result;
                             monedero = JsonConvert.DeserializeObject<Monedero>(responseMonedero);
-                            System.Web.HttpContext.Current.Session["idJugador"] = jugador.IdJugador;
-                            System.Web.HttpContext.Current.Session["username"] = jugador.Nombre;
-                            System.Web.HttpContext.Current.Session["balance"] = monedero.balance;
-                            System.Web.HttpContext.Current.Session["idMonedero"] = monedero.IdMonedero;
-                            return RedirectToAction("Listado", "Evento");
+                            System.Web.HttpContext.Current.Session["idJugador"] = jugador.id;
+                            System.Web.HttpContext.Current.Session["username"] = jugador.nombre;
+                            System.Web.HttpContext.Current.Session["balance"] = monedero.saldo;
+                            System.Web.HttpContext.Current.Session["idMonedero"] = monedero.idMonedero;
+                            return RedirectToAction("Index", "Evento");
                         }
                         else
                         {
@@ -128,6 +130,6 @@ namespace ConsumirServicio.Controllers
             {
                 throw e;
             }
-        }*/
+        }
     }
 }
